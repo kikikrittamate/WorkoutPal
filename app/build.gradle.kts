@@ -74,10 +74,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-firestore")
     implementation ("com.google.firebase:firebase-database")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
     implementation ("com.google.firebase:firebase-messaging")
     implementation("androidx.compose.ui:ui:1.0.0")
     implementation("androidx.compose.ui:ui-tooling:1.0.0")
-    implementation ("com.google.firebase:firebase-database-ktx:20.0.2")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -85,4 +86,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 }

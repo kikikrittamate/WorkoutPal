@@ -1,28 +1,32 @@
 package com.example.workoutpal
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.height
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.TextField
 
 @Composable
-fun CaloriesScreen() {
-    var foodList by remember { mutableStateOf(emptyList<Pair<String, Int>>()) }
+fun CaloriesScreen(context: Context) {
+    var foodList by remember { mutableStateOf(loadFoodList(context)) }
     var foodName by remember { mutableStateOf("") }
     var calorieCount by remember { mutableStateOf("") }
-    var totalCalories by remember { mutableStateOf(0) }
+    var totalCalories by remember { mutableStateOf(calculateTotalCalories(foodList)) }
 
     val body1 = TextStyle(
         fontWeight = FontWeight.Normal,
@@ -59,6 +63,7 @@ fun CaloriesScreen() {
                         totalCalories += calories
                         foodName = ""
                         calorieCount = ""
+                        saveFoodList(context, foodList)
                     }
                 },
                 modifier = Modifier.padding(start = 8.dp)
@@ -97,5 +102,44 @@ fun CaloriesScreen() {
             "Total Calories: $totalCalories",
             style = body1
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                // Reset all states and clear saved data
+                foodList = emptyList()
+                totalCalories = 0
+                foodName = ""
+                calorieCount = ""
+                saveFoodList(context, emptyList())
+            }
+        ) {
+            Text("Reset")
+        }
     }
+}
+
+
+private fun loadFoodList(context: Context): List<Pair<String, Int>> {
+    val sharedPreferences = context.getSharedPreferences("WorkoutPal", MODE_PRIVATE)
+    val serializedFoodList = sharedPreferences.getString("foodList", "") ?: ""
+    return if (serializedFoodList.isNotEmpty()) {
+        serializedFoodList.split(";").map {
+            val (food, calories) = it.split(",")
+            food to calories.toInt()
+        }
+    } else {
+        emptyList()
+    }
+}
+
+private fun saveFoodList(context: Context, foodList: List<Pair<String, Int>>) {
+    val serializedFoodList = foodList.joinToString(";") { (food, calories) ->
+        "$food,$calories"
+    }
+    val sharedPreferences = context.getSharedPreferences("WorkoutPal", MODE_PRIVATE)
+    sharedPreferences.edit().putString("foodList", serializedFoodList).apply()
+}
+
+private fun calculateTotalCalories(foodList: List<Pair<String, Int>>): Int {
+    return foodList.sumBy { it.second }
 }

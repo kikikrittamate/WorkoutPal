@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1087570355712",
-    "project_id": "workoutpal-ffee3",
-    "storage_bucket": "workoutpal-ffee3.appspot.com"
+    "project_number": "51572347779",
+    "project_id": "workoutpal-930d8",
+    "storage_bucket": "workoutpal-930d8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1087570355712:android:2e9b74eeeb17a9e088dae5",
+        "mobilesdk_app_id": "1:51572347779:android:f12b2b7ab8fcedc7225cb6",
         "android_client_info": {
           "package_name": "com.example.workoutpal"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBYMWVhSkeOqmPy_UWegeb1_fDHtQOr1Us"
+          "current_key": "AIzaSyB6ydrPAd0NScMQAHfi73rQj8vqvbQ3YzA"
         }
       ],
       "services": {

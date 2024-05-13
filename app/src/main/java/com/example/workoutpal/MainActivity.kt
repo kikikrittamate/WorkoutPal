@@ -25,6 +25,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.workoutpal.customui.theme.AppTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.platform.LocalContext
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +51,8 @@ fun MainScreenWithBottomNavBar() {
     var navSelectedItem by remember {
         mutableStateOf(0)
     }
+    val viewModel: ScheduleViewModel = viewModel()
+    val context = LocalContext.current
     Scaffold(bottomBar = {
         NavigationBar {
             NavItemInfo().getAllNavItems().forEachIndexed { index, itemInfo ->
@@ -70,10 +75,10 @@ fun MainScreenWithBottomNavBar() {
         startDestination = DestinationScreens.Schedule.route,
         Modifier.padding(paddingValues)) {
         composable(route = DestinationScreens.Schedule.route) {
-            ScheduleScreen()
+            ScheduleScreen(viewModel = viewModel)
         }
         composable(route = DestinationScreens.Calories.route) {
-            CaloriesScreen()
+            CaloriesScreen(context = context)
         }
         composable(route = DestinationScreens.Workout.route) {
             WorkoutScreen()
